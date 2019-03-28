@@ -1,6 +1,11 @@
-window.addEventListener('DOMContentLoaded', () => { 
+// require('babel-polyfill');
+// require('formdata-polyfill');
 
-  let modal = require('./modules/modal');
+window.addEventListener('DOMContentLoaded', () => { 
+  
+  "use scrict";
+  
+  let modal = require('./modules/modal.js');
 
   modal();
 

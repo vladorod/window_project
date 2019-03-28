@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("window.addEventListener('DOMContentLoaded', function () {\n  var modal = __webpack_require__(/*! ./modules/modal */ \"./src/modules/modal.js\");\n\n  modal();\n});\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("// require('babel-polyfill');\n// require('formdata-polyfill');\nwindow.addEventListener('DOMContentLoaded', function () {\n  \"use scrict\";\n\n  var modal = __webpack_require__(/*! ./modules/modal.js */ \"./src/modules/modal.js\");\n\n  modal();\n});\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -104,7 +104,7 @@ eval("window.addEventListener('DOMContentLoaded', function () {\n  var modal = _
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("function modal() {\n  alert('лала');\n}\n\nmodule.exports = modal;\n\n//# sourceURL=webpack:///./src/modules/modal.js?");
+eval("function modal() {\n  var popupEngineer = document.querySelector('.popup_engineer'),\n      popupEngineerBtn = document.querySelector('.popup_engineer_btn'),\n      popupClose = document.querySelectorAll('.popup_close')[1],\n      glazinGpriceBtn = document.querySelectorAll('.glazing_price_btn'),\n      popupCalc = document.querySelector('.popup_calc'),\n      popupCalcClose = document.querySelector('.popup_calc_close'),\n      balconIcons = document.querySelector('.balcon_icons'),\n      bigIMG = document.querySelectorAll('.big_img img');\n  this.modalOpen = false;\n\n  function showModal(btn, modal) {\n    btn.addEventListener('click', function () {\n      if (modalOpen != true) {\n        modal.style.display = \"block\";\n        modalOpen = true;\n      } else {\n        modal.style.display = \"none\";\n        modalOpen = false;\n      }\n    });\n  }\n\n  function showIMG(img) {\n    for (var i = 0; i < bigIMG.length; i++) {\n      if (bigIMG[i].id == img) {\n        bigIMG[i].style.display = 'inline-block';\n      } else {\n        bigIMG[i].style.display = 'none';\n      }\n    }\n  } // first modal \n\n\n  showModal(popupEngineerBtn, popupEngineer);\n  showModal(popupClose, popupEngineer); // calc \n\n  for (var i = 0; i < 2; i++) {\n    showModal(glazinGpriceBtn[i], popupCalc);\n  }\n\n  showModal(popupCalcClose, popupCalc);\n  balconIcons.addEventListener('click', function (e) {\n    if (e.target.tagName == \"IMG\") {\n      showIMG(e.target.parentNode.className);\n    }\n  });\n}\n\nmodule.exports = modal;\n\n//# sourceURL=webpack:///./src/modules/modal.js?");
 
 /***/ })
 
