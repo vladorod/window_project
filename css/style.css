@@ -1454,6 +1454,12 @@ textarea:focus {
     padding: 1rem 5rem;
   }
 }
+.freezeScroll{
+    overflow-x: hidden;
+    position: fixed;
+    width: 100%;
+}
+
 /* small devices, tablets */
 @media only screen and (max-width: 768px) {
   .animated {

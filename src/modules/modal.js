@@ -9,21 +9,21 @@ function modal () {
         bigIMG = document.querySelectorAll('.big_img img');
     
         this.modalOpen = false;
-        
-    function showModal(btn, modal) { 
-        let body = document.body;
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
+        this.scrollisFreezed = false; 
+        this.whoModalIsOpen = "";
+
+    function showModal(modal = whoModalIsOpen) { 
+            freezeScreen();
             if (modalOpen != true) { 
             modal.style.display = "block"; 
             modalOpen = true;
-       
+            whoModalIsOpen = modal;
+            console.log(whoModalIsOpen)
             } else { 
             modal.style.display = "none"; 
             modalOpen = false;
             } 
-        });
-    }
+    };
 
     function showIMG (img) { 
         for (let i = 0; i < bigIMG.length; i++) {
@@ -36,14 +36,34 @@ function modal () {
     }
     
     // first modal 
-    showModal(popupEngineerBtn,popupEngineer);
-    showModal(popupClose,popupEngineer);
+    popupEngineerBtn.addEventListener('click', (e) => { showModal(popupEngineer) });
+    popupClose.addEventListener('click', (e) => { showModal(popupEngineer) });
+
+    // digitСheck in modal
+    let widthModal  = document.querySelector(".form-control[placeholder='Ширина']"),
+        heightModal = document.querySelector(".form-control[placeholder='Высота']"); 
     
+        widthModal.addEventListener('input', () => digitСheck(widthModal));
+        heightModal.addEventListener('input', () => digitСheck(heightModal));
+
+    // button next 
+
+    let buttonNext = document.querySelector('.popup_calc_button'), 
+        lastmodal = document.querySelector('.popup_calc_end'),
+        buttonNextClose = document.querySelector('.popup_calc_end_close');
+    
+        buttonNext.addEventListener('click', () => { 
+            showModal();
+            showModal(lastmodal);
+            clearAllInput();
+        });
+        buttonNextClose.addEventListener('click', (e) => showModal());
+
     // calc 
     for (let i = 0; i < glazinGpriceBtn.length; i++) {
-        showModal(glazinGpriceBtn[i],popupCalc);
+        glazinGpriceBtn[i].addEventListener('click', (e) => { showModal(popupCalc) });
     }
-    showModal(popupCalcClose,popupCalc);
+    popupCalcClose.addEventListener('click', (e) => { showModal() });
 
     balconIcons.addEventListener('click', (e) => { 
         e.preventDefault();
@@ -52,6 +72,7 @@ function modal () {
          }
      
     });
+
     // tab 
 
     let tabContent = document.querySelectorAll('.container')[2].querySelectorAll('.row'),
@@ -77,6 +98,34 @@ function modal () {
         e.target.classList.add("active");
       }
     });
+    
+    // addEventListener("click", (e) => {
+    //     if (e.target.classList == "popup_engineer") 
+    // });
+
+    // freeze Scrool body
+    function freezeScreen() { 
+        if (!scrollisFreezed) {  
+        document.body.classList.add("freezeScroll")
+        scrollisFreezed = true; 
+        }
+        else { 
+            scrollisFreezed = false; 
+            document.body.classList.remove("freezeScroll");
+        }  
+    }
+
+    // digit Check
+    function digitСheck(input) {
+        input.value = input.value.replace(/[^\d,]/g, '');
+    };
+    
+    function clearAllInput () { 
+         let allInput = document.querySelectorAll('input');
+         for (let i in allInput) { 
+             allInput[i].value = "";
+         }
+    }
 }
 
 module.exports = modal; 
