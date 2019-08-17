@@ -11,6 +11,17 @@ function modal () {
         this.modalOpen = false;
         this.scrollisFreezed = false; 
         this.whoModalIsOpen = "";
+        this.order = { 
+            material: "",
+            type: "",
+            size: { 
+                width: "",
+                height: "",
+                window: ""
+            },
+            name: "",
+            phone: ""
+        };
 
     function showModal(modal = whoModalIsOpen) { 
             freezeScreen();
@@ -18,7 +29,6 @@ function modal () {
             modal.style.display = "block"; 
             modalOpen = true;
             whoModalIsOpen = modal;
-            console.log(whoModalIsOpen)
             } else { 
             modal.style.display = "none"; 
             modalOpen = false;
@@ -36,21 +46,44 @@ function modal () {
     }
     
     // first modal 
+
     popupEngineerBtn.addEventListener('click', (e) => { showModal(popupEngineer) });
     popupClose.addEventListener('click', (e) => { showModal(popupEngineer) });
 
     // digitСheck in modal
+
     let widthModal  = document.querySelector(".form-control[placeholder='Ширина']"),
         heightModal = document.querySelector(".form-control[placeholder='Высота']"); 
     
-        widthModal.addEventListener('input', () => digitСheck(widthModal));
-        heightModal.addEventListener('input', () => digitСheck(heightModal));
+        widthModal.addEventListener('input', (e) => {
+            digitСheck(widthModal);
+            order.size.width = e.target.value;
+        });
+        heightModal.addEventListener('input', (e) =>{ 
+            digitСheck(heightModal)
+            order.size.height = e.target.value;
+        });
 
     // button next 
 
-    let buttonNext = document.querySelector('.popup_calc_button'), 
-        lastmodal = document.querySelector('.popup_calc_end'),
-        buttonNextClose = document.querySelector('.popup_calc_end_close');
+    let buttonNext      = document.querySelector('.popup_calc_button'), 
+        lastmodal       = document.querySelector('.popup_calc_end'),
+        buttonNextClose = document.querySelector('.popup_calc_end_close'),
+        inputUserName   = document.querySelectorAll('input[name="user_name"]'),
+        inputUserPhone  = document.querySelectorAll('input[name="user_phone"]');
+        
+        // added all input name and phone value listner 
+
+        for (let i = 0; i < inputUserName.length; i++ ) { 
+            inputUserName[i].addEventListener('input', (e) => { 
+               order.name = e.target.value;
+            });
+        }
+        for (let i = 0; i < inputUserPhone.length; i++ ) { 
+            inputUserPhone[i].addEventListener('input', (e) => { 
+               order.phone = e.target.value;
+            });
+        }
     
         buttonNext.addEventListener('click', () => { 
             showModal();
@@ -59,9 +92,15 @@ function modal () {
         });
         buttonNextClose.addEventListener('click', (e) => showModal());
 
+
     // calc 
+
     for (let i = 0; i < glazinGpriceBtn.length; i++) {
-        glazinGpriceBtn[i].addEventListener('click', (e) => { showModal(popupCalc) });
+        glazinGpriceBtn[i].addEventListener('click', (e) => {
+            let type = e.target.parentNode.parentNode.childNodes[1].classList[0].replace(/glazing_/ig, ""); 
+            showModal(popupCalc);
+            order.type = type;
+         });
     }
     popupCalcClose.addEventListener('click', (e) => { showModal() });
 
@@ -69,14 +108,14 @@ function modal () {
         e.preventDefault();
          if (e.target.tagName == "IMG") {
             showIMG(e.target.parentNode.className);
+            order.size.window = e.target.parentNode.className;
          }
-     
     });
 
     // tab 
 
     let tabContent = document.querySelectorAll('.container')[2].querySelectorAll('.row'),
-        tabBtn = document.querySelector('.slick-track');
+        tabBtn     = document.querySelector('.slick-track');
 
     function showTAB(tab) { 
     for (let i = 0; i < tabContent.length; i++) { 
@@ -89,13 +128,16 @@ function modal () {
     }
     }
     tabBtn.addEventListener('click', (e) => {  
-      let links = document.querySelector('.slick-track').querySelectorAll('a');
+      let links    = document.querySelector('.slick-track').querySelectorAll('a'),
+          material = e.target.className.replace(/_link/ig, "").replace(/ /, "").replace(/active/, "");
+
       if (e.target.tagName == "A") { 
-        showTAB(e.target.className.replace(/_link/ig, "").replace(/ /, "").replace(/active/, ""));
+        showTAB(material);
         for(let i = 0; i < links.length; i++) { 
           links[i].classList.remove("active");
         }
         e.target.classList.add("active");
+        order.material = material;
       }
     });
     

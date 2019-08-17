@@ -2,7 +2,6 @@
 /*Colors*/
 /*Basic settings*/
 html {
-  overflow-x: hidden;
   font-size: 10px;
 }
 body {
@@ -1455,9 +1454,7 @@ textarea:focus {
   }
 }
 .freezeScroll{
-    overflow-x: hidden;
-    position: fixed;
-    width: 100%;
+    overflow: hidden;
 }
 
 /* small devices, tablets */
